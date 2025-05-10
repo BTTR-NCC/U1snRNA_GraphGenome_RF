@@ -12,10 +12,9 @@ This page shares the script we used for our paper entitled "Diversity of U1 smal
 using LeafCutter. Nat Genet. 2018; 50: 151-158.).
 
    Step2. Cross-validation and consideration of the best model
-      Script:
+      Script: U1analysis.random.forest_modeleval_list.py
    
-   Step3. Estimate forest classifier
-      Script:
+   Step3. Estimate U1 snRNA mutation status
+      Script: U1analysis.random.forest.py
 
-   Step4. Estimate U1 snRNA mutation status
       
