@@ -11,8 +11,11 @@ This page shares the script we used for our paper entitled "Diversity of U1 smal
      For detailed usage of LeafCutter, refer to the repository (https://github.com/davidaknowles/leafcutter) and the paper (Li YI, Knowles DA, Humphrey J, et al. Annotation-free quantification of RNA splicing
 using LeafCutter. Nat Genet. 2018; 50: 151-158.).
 
-   Step2. Train random forest classifier
-      Train random forest classifier using discovery cohort with the scikit-learn. Script:
+   Step2. Cross-validation and consideration of the best model
+      Script:
+   
+   Step3. Estimate forest classifier
+      Script:
 
-   Step3. Estimate U1 snRNA mutation status
+   Step4. Estimate U1 snRNA mutation status
       
