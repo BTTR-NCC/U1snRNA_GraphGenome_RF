@@ -4,6 +4,8 @@ This page shares the script we used for our paper entitled "Diversity of U1 smal
 
 1. Mutation calling with human pangenome reference (Related to Figure 4)
 
+   Human pangenome references can be downloaded from the Human Pangenome Reference Consortium (https://humanpangenome.org/) and the mutation calling is based on vg algorithms (https://github.com/vgteam/vg).
+
 2. Splicing-based machine learning (Random Forest Classifier; Related to Figure 5)
 
    Step1. Intron-centric alternative splicing analysis
