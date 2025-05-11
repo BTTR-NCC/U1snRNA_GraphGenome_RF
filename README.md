@@ -22,11 +22,11 @@ This page shares the script we used for our paper entitled "Diversity of U1 smal
      For detailed usage of LeafCutter, refer to the repository (https://github.com/davidaknowles/leafcutter) and the paper (Li YI, Knowles DA, Humphrey J, et al. Annotation-free quantification of RNA splicing
 using LeafCutter. Nat Genet. 2018; 50: 151-158.).
 
-   Step2. Cross-validation and consideration of the best model
+   Step2. Cross-validation and define the best differentially spliced introns (DSIs) for the estimation 
 
       Script: Splicing-based_ML/U1analysis.random.forest_modeleval_list.py
    
-   Step3. Estimate U1 snRNA mutation status
+   Step3. Estimate U1 snRNA mutation status with defined DSIs
 
       Script: Splicing-based_ML/U1analysis.random.forest.py
  
