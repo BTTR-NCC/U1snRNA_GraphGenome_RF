@@ -8,11 +8,11 @@ This page shares the script we used for our paper entitled "Diversity of U1 smal
 
    Step1. Extract sequencing reads aligned on snRNA genes and variant genes from the BAM file as in the analysis with the linear genome, then align to the reference graph
 
-     Script: MutationCall_Pangenome/bam2fq_vg_giraff_mapping.sh
+      Script: MutationCall_Pangenome/bam2fq_vg_giraff_mapping.sh
 
    Step2. Call mutations using EB Call and bcftools.
 
-     Script: MutationCall_Pangenome/call_bcftools.sh , MutationCall_Pangenome/call_Genomon.sh
+      Script: MutationCall_Pangenome/call_bcftools.sh , MutationCall_Pangenome/call_Genomon.sh
 
 3. Splicing-based machine learning (Random Forest Classifier; Related to Figure 5)
 
@@ -24,10 +24,10 @@ using LeafCutter. Nat Genet. 2018; 50: 151-158.).
 
    Step2. Cross-validation and consideration of the best model
 
-     Script: Splicing-based_ML/U1analysis.random.forest_modeleval_list.py
+      Script: Splicing-based_ML/U1analysis.random.forest_modeleval_list.py
    
    Step3. Estimate U1 snRNA mutation status
 
-     Script: Splicing-based_ML/U1analysis.random.forest.py
-
+      Script: Splicing-based_ML/U1analysis.random.forest.py
+ 
       
