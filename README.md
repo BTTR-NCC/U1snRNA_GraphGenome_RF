@@ -6,7 +6,11 @@ This page shares the script we used for our paper entitled "Diversity of U1 smal
 
    Human pangenome references can be downloaded from the Human Pangenome Reference Consortium (https://humanpangenome.org/) and the mutation calling is based on vg algorithms (https://github.com/vgteam/vg).
 
-2. Splicing-based machine learning (Random Forest Classifier; Related to Figure 5)
+   Step1. Extract sequencing reads aligned on snRNA genes and variant genes from the BAM file as in the analysis with the linear genome, then align to the reference graph
+   Script: MutationCall_Pangenome/bam2fq_vg_giraff_mapping.sh
+ 
+
+3. Splicing-based machine learning (Random Forest Classifier; Related to Figure 5)
 
    Step1. Intron-centric alternative splicing analysis
      We implemented LeafCutter to perform this analysis.
