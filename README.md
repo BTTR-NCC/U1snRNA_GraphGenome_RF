@@ -14,10 +14,10 @@ using LeafCutter. Nat Genet. 2018; 50: 151-158.).
 
    Step2. Cross-validation and consideration of the best model
 
-      Script: U1analysis.random.forest_modeleval_list.py
+         Script: U1analysis.random.forest_modeleval_list.py
    
    Step3. Estimate U1 snRNA mutation status
 
-      Script: U1analysis.random.forest.py
+         Script: U1analysis.random.forest.py
 
       
