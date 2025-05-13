@@ -24,7 +24,7 @@ check_mkdir() {
 	fi
 }
 
-bamtofastq=/home/command/biobambam/subscript/bamtofastq_sub.v2.sh
+bamtofastq=/U1snRNA_GraphGenome_RF/MutationCall_Pangenome/subscript/bamtofastq_sub.v2.sh
 rmfastq="FALSE"
 mkbam="TRUE"
 maxlen=3000
