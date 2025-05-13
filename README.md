@@ -14,6 +14,8 @@ This page shares the script we used for our paper entitled "Diversity of U1 smal
    Step2. Call mutations using EB Call and bcftools.
 
       - Script: MutationCall_Pangenome/call_bcftools.sh , MutationCall_Pangenome/call_Genomon.sh
+      - /home/package/annovar/2019Oct24/convert2annovar.pl in the script (MutationCall_Pangenome/call_bcftools.sh) can be downloaded from ANNOVAR https://annovar.openbioinformatics.org/en/latest/#annovar-documentation
+
 
 3. Splicing-based machine learning (Random Forest Classifier; Related to Figure 5)
 
