@@ -105,7 +105,8 @@ rm ${OUTPUTTAG}.U1snRNA.bcfcall.vcf.gz ${OUTPUTTAG}.U1snRNA.bcfcall.vcf.gz.tbi
 /home/package/annovar/2019Oct24/convert2annovar.pl -format vcf4old --allallele ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.vcf.gz > ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.tsv || exit $?
 rm ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.vcf.gz
 
-module load blat/linux.x86_64
+blatDIR=/home/package/blat/linux.x86_64/
+export PATH=${blatDIR};${PATH}
 source /home/virturalenv3.7.17_OS8/Genomon2/bin/activate
 
 mutfilter realignment -s ${score_difference} -w ${window_size} -t ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.tsv -1 ${TBAM} -2 ${NBAM} -o ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.realign.tsv -r ${fasta} -b $(which blat) --exclude_sam_flags ${exclude_sam_flags} || exit $?
@@ -113,4 +114,3 @@ rm ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.tsv
 
 EBFilter -f anno -q ${EBcall_mapq} -Q ${EBcall_baseq} --ff 4 ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.realign.tsv ${TBAM} ${Panel} ${OUTPUTTAG}.BQ${base_qual_mpileup}.U1snRNA.bcfcall.lnorm.3.EB.tsv --loption || exit $?
 rm ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.realign.tsv
-
