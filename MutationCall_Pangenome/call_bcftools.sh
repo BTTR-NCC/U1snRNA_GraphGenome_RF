@@ -1,18 +1,29 @@
 #! /bin/sh
-#$ -S /bin/bash
-#$ -e /home/ha6434/command/vg/log/
-#$ -o /home/ha6434/command/vg/log/
-#$ -cwd
-#$ -l s_vmem=20G,mem_req=20G
 
-source /home/ha6434/util/utility.sh
-source /home/ha6434/util/source_share.sh
+samtoolsDIR=/usr/local/package/samtools/1.19/bin/
+export PATH=${samtoolsDIR};${PATH}
+#Aux Function
+is_file_exists() {
+	if [ -f $1 ]; then
+		echo "$1 exists."
+		return 0
+	fi
+	echo "$1 does not exists."
+	exit 1
+}
 
-module load samtools/1.19
+check_mkdir() {
+	if [ -d $1 ]; then
+		echo "$1 exists."
+	else
+		echo "$1 does not exits."
+		mkdir -p $1
+	fi
+}
 
 #clone from call_bcftools.v2.sh for github
 
-fasta=/home/ha6434/reference/Human_Pangenome_Reference_Consortium/Graphs/GRCh38/AF_filtered/hprc-v1.1-mc-grch38.d9.gbz.GRCh38referencepaths.fa
+fasta=/home/reference/Human_Pangenome_Reference_Consortium/Graphs/GRCh38/AF_filtered/hprc-v1.1-mc-grch38.d9.gbz.GRCh38referencepaths.fa
 ##setting
 score_difference=5
 window_size=200
@@ -20,6 +31,7 @@ exclude_sam_flags=1024
 EBcall_mapq=0
 EBcall_baseq=15
 base_qual_mpileup=15
+Ncore=1
 
 usage() {
 	echo "Arguments=[tumor BAM] [tumor TAG] [normal bam] [(-d | --divconfig  [ARG])] [(-o | --output [ARG])] [(-c | --genomonconfig  [ARG])] [(-j | --jobfile [ARG])][(-J)]"
@@ -82,7 +94,7 @@ OUTPUTTAG=${param[2]} ; check_mkdir $(dirname ${OUTPUTTAG})
 Panel=${param[3]} ; is_file_exists ${Panel}
 
 ##bcftools call
-bcftools mpileup --threads ${NSLOTS} -f ${fasta} ${TBAM} ${NBAM} --annotate FORMAT/AD,FORMAT/DP,FORMAT/ADF,FORMAT/ADR,FORMAT/SP,INFO/AD,INFO/SCR --ff 4 -Q ${base_qual_mpileup} | bcftools call -f GQ --threads ${NSLOTS} -A -m -Oz -o ${OUTPUTTAG}.U1snRNA.bcfcall.vcf.gz || exit $?
+bcftools mpileup --threads ${Ncore} -f ${fasta} ${TBAM} ${NBAM} --annotate FORMAT/AD,FORMAT/DP,FORMAT/ADF,FORMAT/ADR,FORMAT/SP,INFO/AD,INFO/SCR --ff 4 -Q ${base_qual_mpileup} | bcftools call -f GQ --threads ${Ncore} -A -m -Oz -o ${OUTPUTTAG}.U1snRNA.bcfcall.vcf.gz || exit $?
 tabix -f ${OUTPUTTAG}.U1snRNA.bcfcall.vcf.gz
 
 bcftools norm -m-both ${OUTPUTTAG}.U1snRNA.bcfcall.vcf.gz| bcftools norm -f ${fasta} -Oz -o ${OUTPUTTAG}.BQ${base_qual_mpileup}.U1snRNA.bcfcall.lnorm.vcf.gz || exit $?
@@ -90,14 +102,15 @@ tabix -f ${OUTPUTTAG}.BQ${base_qual_mpileup}.U1snRNA.bcfcall.lnorm.vcf.gz
 bcftools view ${OUTPUTTAG}.BQ${base_qual_mpileup}.U1snRNA.bcfcall.lnorm.vcf.gz -i 'FORMAT/AD[0:1] >= 3 && FORMAT/AD[1:1] <= 3' -Oz -o ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.vcf.gz || exit $?
 rm ${OUTPUTTAG}.U1snRNA.bcfcall.vcf.gz ${OUTPUTTAG}.U1snRNA.bcfcall.vcf.gz.tbi
 
-/home/ha6434/package/annovar/2019Oct24/convert2annovar.pl -format vcf4old --allallele ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.vcf.gz > ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.tsv || exit $?
+/home/package/annovar/2019Oct24/convert2annovar.pl -format vcf4old --allallele ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.vcf.gz > ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.tsv || exit $?
 rm ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.vcf.gz
 
 module load blat/linux.x86_64
-source /home/ha6434/virturalenv3.7.17_OS8/Genomon2/bin/activate
+source /home/virturalenv3.7.17_OS8/Genomon2/bin/activate
 
 mutfilter realignment -s ${score_difference} -w ${window_size} -t ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.tsv -1 ${TBAM} -2 ${NBAM} -o ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.realign.tsv -r ${fasta} -b $(which blat) --exclude_sam_flags ${exclude_sam_flags} || exit $?
 rm ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.tsv
 
 EBFilter -f anno -q ${EBcall_mapq} -Q ${EBcall_baseq} --ff 4 ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.realign.tsv ${TBAM} ${Panel} ${OUTPUTTAG}.BQ${base_qual_mpileup}.U1snRNA.bcfcall.lnorm.3.EB.tsv --loption || exit $?
 rm ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.realign.tsv
+
