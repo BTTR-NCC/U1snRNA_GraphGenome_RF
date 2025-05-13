@@ -2,6 +2,8 @@
 
 samtoolsDIR=/usr/local/package/samtools/1.19/bin/
 export PATH=${samtoolsDIR};${PATH}
+fasta=/home/reference/Human_Pangenome_Reference_Consortium/Graphs/GRCh38/AF_filtered/hprc-v1.1-mc-grch38.d9.gbz.GRCh38referencepaths.fa
+
 #Aux Function
 is_file_exists() {
 	if [ -f $1 ]; then
@@ -23,7 +25,6 @@ check_mkdir() {
 
 #clone from call_bcftools.v2.sh for github
 
-fasta=/home/reference/Human_Pangenome_Reference_Consortium/Graphs/GRCh38/AF_filtered/hprc-v1.1-mc-grch38.d9.gbz.GRCh38referencepaths.fa
 ##setting
 score_difference=5
 window_size=200
