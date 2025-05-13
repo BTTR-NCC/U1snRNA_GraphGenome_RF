@@ -25,7 +25,7 @@ using LeafCutter. Nat Genet. 2018; 50: 151-158.).
 
    Step2. Cross-validation and define the best differentially spliced introns (DSIs) for the estimation 
 
-      - Script: Splicing-based_ML/U1analysis.random.forest_modeleval_list.py
+      - Script: Splicing-based_ML/U1analysis.random.forest_modeleval_list.U1est.py
 
       - Input:
         - TAB-delemited information file "experimentTAG(TAB)psitableTraining(TAB)psitableTEST"
