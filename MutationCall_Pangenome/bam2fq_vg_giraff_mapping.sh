@@ -1,20 +1,34 @@
 #! /bin/sh
-#$ -S /bin/bash
-#$ -e /home/ha6434/command/vg/log/
-#$ -o /home/ha6434/command/vg/log/
-#$ -cwd
-#$ -l s_vmem=24G,mem_req=24G
-#$ -pe def_slot 6
 
-source /home/ha6434/util/utility.sh
-source /home/ha6434/util/source_share.sh
+vgDIR=/home/package/vg/1.53.0/
+samtoolsDIR=/usr/local/package/samtools/1.9/bin/
+export PATH=${vgDIR};${PATH}
+export PATH=${samtoolsDIR};${PATH}
 
-module load vg/1.53.0 samtools/1.9
+#Aux Function
+is_file_exists() {
+	if [ -f $1 ]; then
+		echo "$1 exists."
+		return 0
+	fi
+	echo "$1 does not exists."
+	exit 1
+}
 
-bamtofastq=/home/ha6434/command/biobambam/subscript/bamtofastq_sub.v2.sh
+check_mkdir() {
+	if [ -d $1 ]; then
+		echo "$1 exists."
+	else
+		echo "$1 does not exits."
+		mkdir -p $1
+	fi
+}
+
+bamtofastq=/home/command/biobambam/subscript/bamtofastq_sub.v2.sh
 rmfastq="FALSE"
 mkbam="TRUE"
 maxlen=3000
+Ncore=6
 regionbed=""
 inputbam=""
 
@@ -202,9 +216,9 @@ fi
 chmod -R 770 ${WORKDIR}
 
 if [[ ${reference} =~ .gg$ ]]; then
-	vg giraffe --progress --read-group "${RG}" --sample ${TAG} -g ${tmpref} -H ${tmpgbwt} -m ${tmpmin} -d ${tmpdist} -f ${fastq1} -f ${fastq2} -t ${NSLOTS} -o gam > ${OUTPUTTAG}.vg.giraffe.gam || exit $?
+	vg giraffe --progress --read-group "${RG}" --sample ${TAG} -g ${tmpref} -H ${tmpgbwt} -m ${tmpmin} -d ${tmpdist} -f ${fastq1} -f ${fastq2} -t ${Ncore} -o gam > ${OUTPUTTAG}.vg.giraffe.gam || exit $?
 else
-	vg giraffe --progress --read-group "${RG}" --sample ${TAG} -Z ${tmpref} -m ${tmpmin} -d ${tmpdist} -f ${fastq1} -f ${fastq2} -t ${NSLOTS} -o gam > ${OUTPUTTAG}.vg.giraffe.gam || exit $?
+	vg giraffe --progress --read-group "${RG}" --sample ${TAG} -Z ${tmpref} -m ${tmpmin} -d ${tmpdist} -f ${fastq1} -f ${fastq2} -t ${Ncore} -o gam > ${OUTPUTTAG}.vg.giraffe.gam || exit $?
 fi
 if [[ "${mkbam}" == "TRUE" ]]; then
 	if [[ ${reference} =~ .gg$ ]]; then
