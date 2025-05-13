@@ -1,27 +1,48 @@
 #! /bin/sh
-#$ -S /bin/bash
-#$ -e /home/ha6434/command/vg/log/
-#$ -o /home/ha6434/command/vg/log/
-#$ -cwd
-#$ -l s_vmem=20G,mem_req=20G
 
-source /home/ha6434/util/utility.sh
-source /home/ha6434/util/source_share.sh
+blatDIR=/home/package/blat/linux.x86_64/
+samtoolsDIR=/usr/local/package/samtools/1.9/bin/
+export PATH=${blatDIR};${PATH}
+export PATH=${samtoolsDIR};${PATH}
 
-module use /usr/local/package/modulefiles/
-export MODULEPATH=/home/ha6434/modulefiles:$MODULEPATH
-module load samtools/1.9 blat/linux.x86_64
+#Aux Function
+is_file_exists() {
+	if [ -f $1 ]; then
+		echo "$1 exists."
+		return 0
+	fi
+	echo "$1 does not exists."
+	exit 1
+}
 
-fasta=/home/ha6434/reference/Human_Pangenome_Reference_Consortium/Graphs/GRCh38/AF_filtered/hprc-v1.1-mc-grch38.d9.gbz.GRCh38referencepaths.fa
-genomonconfig=/home/ha6434/command/multimapMut/config/Genomon2_multimap_somatic_setting.v2.config ;is_file_exists ${genomonconfig}
+check_mkdir() {
+	if [ -d $1 ]; then
+		echo "$1 exists."
+	else
+		echo "$1 does not exits."
+		mkdir -p $1
+	fi
+}
 
-tsv2vcf=/home/ha6434/command/multimapMut/subscript/multimapcf.pair.php
-bgzip=/home/ha6434/command/samtools/bgzip.sh
-lfnorm=/home/ha6434/command/samtools/bcftools.leftnorm.sh
-runR=/home/ha6434/command/util/run_R_3.5.0.sh
-fisherfilt=/home/ha6434/command/multimapMut/subscript/somatic_fisher_filter.v2.R
+fasta=/home/reference/Human_Pangenome_Reference_Consortium/Graphs/GRCh38/AF_filtered/hprc-v1.1-mc-grch38.d9.gbz.GRCh38referencepaths.fa
 
-source /home/ha6434/virturalenv3.7.17_OS8/Genomon2/bin/activate
+#Genomon Config
+base_quality=15
+min_allele_freq=0.005
+max_allele_freq=0.10
+min_depth=8
+min_variant_read=5
+fisher_value=1.0
+samtools_params="-q 0 -BQ0 -d 10000000 --ff UNMAP,QCFAIL"
+cutNnumFisher=4
+score_difference=5
+window_size=200
+max_depth=5000
+exclude_sam_flags=3328
+EBcall_mapq=0
+EBcall_baseq=15
+
+source /home/virturalenv3.7.17_OS8/Genomon2/bin/activate
 
 usage() {
     echo "Arguments=[information table] [-f | --fasta [ARG]] [(-d | --directory  [ARG])] [(-p | --project [ARG])] [(-T | --tag [ARG])][(-o | --output [ARG])][(-j | --jobfile [ARG])][(-J)]"
@@ -97,7 +118,7 @@ rm ${OUTPUTTAG}.U1snRNA.Genomon.fisher.txt|| exit $?
 
 #Empirical Baysian mutation calling
 deactivate
-source /home/ha6434/virturalenv3.7.17_OS8/GenomonEBFilt/bin/activate
+source /home/virturalenv3.7.17_OS8/GenomonEBFilt/bin/activate
 
 EBFilter -f anno -q ${EBcall_mapq} -Q ${EBcall_baseq} --ff 4 ${OUTPUTTAG}.U1snRNA.Genomon.realign.txt ${TBAM} ${Panel} ${OUTPUTTAG}.U1snRNA.Genomon.EB.tsv --loption || exit $?
 rm ${OUTPUTTAG}.U1snRNA.Genomon.realign.txt || exit $?
