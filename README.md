@@ -28,7 +28,8 @@ using LeafCutter. Nat Genet. 2018; 50: 151-158.).
       - Script: Splicing-based_ML/U1analysis.random.forest_modeleval_list.py
 
       - Input:
-        - TAB-delemited information "experimentTAG<TAB>psitableTraining<TAB>psitableTEST"
+        - TAB-delemited information file "experimentTAG<TAB>psitableTraining<TAB>psitableTEST"
+        - Example psitable is Splicing-based_ML/sample_files/Example_RFinput.tsv
    
    Step3. Estimate U1 snRNA mutation status with defined DSIs
 
