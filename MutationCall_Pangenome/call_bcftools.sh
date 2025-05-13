@@ -2,7 +2,10 @@
 
 samtoolsDIR=/usr/local/package/samtools/1.19/bin/
 export PATH=${samtoolsDIR};${PATH}
-fasta=/home/reference/Human_Pangenome_Reference_Consortium/Graphs/GRCh38/AF_filtered/hprc-v1.1-mc-grch38.d9.gbz.GRCh38referencepaths.fa
+blatDIR=/home/package/blat/linux.x86_64/
+export PATH=${blatDIR};${PATH}
+virtualenvGenomon=/home/usr/Genomon2/bin
+source ${virtualenvGenomon}
 
 #Aux Function
 is_file_exists() {
@@ -25,6 +28,7 @@ check_mkdir() {
 
 #clone from call_bcftools.v2.sh for github
 
+fasta=/home/reference/Human_Pangenome_Reference_Consortium/Graphs/GRCh38/AF_filtered/hprc-v1.1-mc-grch38.d9.gbz.GRCh38referencepaths.fa
 ##setting
 score_difference=5
 window_size=200
@@ -105,10 +109,6 @@ rm ${OUTPUTTAG}.U1snRNA.bcfcall.vcf.gz ${OUTPUTTAG}.U1snRNA.bcfcall.vcf.gz.tbi
 
 /home/package/annovar/2019Oct24/convert2annovar.pl -format vcf4old --allallele ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.vcf.gz > ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.tsv || exit $?
 rm ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.vcf.gz
-
-blatDIR=/home/package/blat/linux.x86_64/
-export PATH=${blatDIR};${PATH}
-source /home/virturalenv3.7.17_OS8/Genomon2/bin/activate
 
 mutfilter realignment -s ${score_difference} -w ${window_size} -t ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.tsv -1 ${TBAM} -2 ${NBAM} -o ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.realign.tsv -r ${fasta} -b $(which blat) --exclude_sam_flags ${exclude_sam_flags} || exit $?
 rm ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.tsv
