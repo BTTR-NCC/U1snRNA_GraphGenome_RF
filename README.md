@@ -32,13 +32,7 @@ using LeafCutter. Nat Genet. 2018; 50: 151-158.).
       Script: Splicing-based_ML/U1analysis.random.forest.py
    
       Input:
-
-         psitrainF: tab-delimited file including sample, genotype label, and psi values for selected introns.
-
-         (Example file: Splicing-based_ML/sample_files/Example_RFinput.tsv)
-
-         psitestF: psi value table ("selected introns" X "sample")
-
-         (Splicing-based_ML/Example_psitable_corrected.txt)
+         psitrainF: tab-delimited file including sample, genotype label, and psi values for selected introns. Example file: Splicing-based_ML/sample_files/Example_RFinput.tsv
+         psitestF: psi value table ("selected introns" X "sample"). Example file: Splicing-based_ML/Example_psitable_corrected.txt
  
       
