@@ -29,7 +29,7 @@ using LeafCutter. Nat Genet. 2018; 50: 151-158.).
 
       - Input:
         - TAB-delemited information file "experimentTAG(TAB)psitableTraining(TAB)psitableTEST"
-        - Example psitable is Splicing-based_ML/sample_files/Example_RFinput.tsv
+        - Example psitable is sample_files/Example_RFinput.tsv
    
    Step3. Estimate U1 snRNA mutation status with defined DSIs
 
@@ -37,8 +37,8 @@ using LeafCutter. Nat Genet. 2018; 50: 151-158.).
    
       - Input:
 
-         - psitrainF: tab-delimited file including sample, genotype label, and psi values for selected introns. Example file: Splicing-based_ML/sample_files/Example_RFinput.tsv
+         - psitrainF: tab-delimited file including sample, genotype label, and psi values for selected introns. Example file: sample_files/Example_RFinput.tsv
 
-         - psitestF: psi value table ("selected introns" X "sample"). Example file: Splicing-based_ML/Example_psitable_corrected.txt
+         - psitestF: psi value table ("selected introns" X "sample"). Example file: sample_files/Example_psitable_corrected.txt
  
       
