@@ -1,9 +1,12 @@
 #! /bin/sh
 
 blatDIR=/home/package/blat/linux.x86_64/
-samtoolsDIR=/usr/local/package/samtools/1.9/bin/
 export PATH=${blatDIR};${PATH}
+samtoolsDIR=/usr/local/package/samtools/1.9/bin/
 export PATH=${samtoolsDIR};${PATH}
+fasta=/home/reference/Human_Pangenome_Reference_Consortium/Graphs/GRCh38/AF_filtered/hprc-v1.1-mc-grch38.d9.gbz.GRCh38referencepaths.fa
+virtualenvGenomon=/home/usr/Genomon2/bin
+source ${virtualenvGenomon}
 
 #Aux Function
 is_file_exists() {
@@ -24,7 +27,6 @@ check_mkdir() {
 	fi
 }
 
-fasta=/home/reference/Human_Pangenome_Reference_Consortium/Graphs/GRCh38/AF_filtered/hprc-v1.1-mc-grch38.d9.gbz.GRCh38referencepaths.fa
 
 #Genomon Config
 base_quality=15
@@ -42,7 +44,6 @@ exclude_sam_flags=3328
 EBcall_mapq=0
 EBcall_baseq=15
 
-source /home/virturalenv3.7.17_OS8/Genomon2/bin/activate
 
 usage() {
     echo "Arguments=[information table] [-f | --fasta [ARG]] [(-d | --directory  [ARG])] [(-p | --project [ARG])] [(-T | --tag [ARG])][(-o | --output [ARG])][(-j | --jobfile [ARG])][(-J)]"
@@ -107,7 +108,6 @@ Panel=${param[3]} ; is_file_exists ${Panel}
 
 ##check files
 is_file_exists ${genomonconfig}
-source ${genomonconfig}
 
 ##Fisher call
 fisher comparison -1 ${TBAM} -2 ${NBAM} -o ${OUTPUTTAG}.U1snRNA.Genomon.fisher.txt --ref_fa ${fasta} --samtools_path $(which samtools) --base_quality ${base_quality} --min_allele_freq ${min_allele_freq} --max_allele_freq ${max_allele_freq} --min_depth ${min_depth} --min_variant_read ${min_variant_read} --fisher_value ${fisher_value} --samtools_params "${samtools_params}" || exit $?
@@ -117,8 +117,7 @@ mutfilter realignment -s ${score_difference} -w ${window_size} -t ${OUTPUTTAG}.U
 rm ${OUTPUTTAG}.U1snRNA.Genomon.fisher.txt|| exit $?
 
 #Empirical Baysian mutation calling
-deactivate
-source /home/virturalenv3.7.17_OS8/GenomonEBFilt/bin/activate
 
 EBFilter -f anno -q ${EBcall_mapq} -Q ${EBcall_baseq} --ff 4 ${OUTPUTTAG}.U1snRNA.Genomon.realign.txt ${TBAM} ${Panel} ${OUTPUTTAG}.U1snRNA.Genomon.EB.tsv --loption || exit $?
 rm ${OUTPUTTAG}.U1snRNA.Genomon.realign.txt || exit $?
+deactivate
