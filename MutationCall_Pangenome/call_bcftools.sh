@@ -107,6 +107,7 @@ tabix -f ${OUTPUTTAG}.BQ${base_qual_mpileup}.U1snRNA.bcfcall.lnorm.vcf.gz
 bcftools view ${OUTPUTTAG}.BQ${base_qual_mpileup}.U1snRNA.bcfcall.lnorm.vcf.gz -i 'FORMAT/AD[0:1] >= 3 && FORMAT/AD[1:1] <= 3' -Oz -o ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.vcf.gz || exit $?
 rm ${OUTPUTTAG}.U1snRNA.bcfcall.vcf.gz ${OUTPUTTAG}.U1snRNA.bcfcall.vcf.gz.tbi
 
+#/home/package/annovar/2019Oct24/convert2annovar.pl can be downloaded from ANNOVAR https://annovar.openbioinformatics.org/en/latest/#annovar-documentation
 /home/package/annovar/2019Oct24/convert2annovar.pl -format vcf4old --allallele ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.vcf.gz > ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.tsv || exit $?
 rm ${OUTPUTTAG}.U1snRNA.bcfcall.lnorm.3.vcf.gz
 
