@@ -30,8 +30,10 @@ using LeafCutter. Nat Genet. 2018; 50: 151-158.).
    Step3. Estimate U1 snRNA mutation status with defined DSIs
 
       Script: Splicing-based_ML/U1analysis.random.forest.py
-      Example input:
-         psitrainF = Splicing-based_ML/sample_files/Example_RFinput.tsv
-         psitestF = Splicing-based_ML/Example_psitable_corrected.txt
+      Input:
+         psitrainF: tab-delimited file including sample, genotype label, and psi values for selected introns.
+         (Example file: Splicing-based_ML/sample_files/Example_RFinput.tsv)
+         psitestF: psi value table ("selected introns" X "sample")
+         (Splicing-based_ML/Example_psitable_corrected.txt)
  
       
