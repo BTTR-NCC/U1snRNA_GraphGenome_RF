@@ -26,6 +26,9 @@ using LeafCutter. Nat Genet. 2018; 50: 151-158.).
    Step2. Cross-validation and define the best differentially spliced introns (DSIs) for the estimation 
 
       - Script: Splicing-based_ML/U1analysis.random.forest_modeleval_list.py
+
+      - Input:
+        - TAB-delemited information "experimentTAG<TAB>psitableTraining<TAB>psitableTEST"
    
    Step3. Estimate U1 snRNA mutation status with defined DSIs
 
