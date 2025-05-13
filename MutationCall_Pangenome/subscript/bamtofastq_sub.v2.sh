@@ -10,7 +10,7 @@ is_file_exists() {
 	exit 1
 }
 
-bbDIR=/home/ha6434/package/biobambam/2.0.146/bin/
+bbDIR=/home/package/biobambam/2.0.146/bin/
 samtoolsDIR=/usr/local/package/samtools/1.9/bin/
 export PATH=${bbDIR};${PATH}
 export PATH=${samtoolsDIR};${PATH}
